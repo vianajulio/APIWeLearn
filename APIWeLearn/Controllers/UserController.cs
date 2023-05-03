@@ -16,9 +16,11 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUser(int idValue) {
+        public IActionResult GetUser(string json) {
+            User? user = JsonConvert.DeserializeObject<User>(json);
+            user.SearchUser();
             return new JsonResult(
-                JsonConvert.SerializeObject(Models.User.SearchUser(idValue)));
+                JsonConvert.SerializeObject(user));
         }
 
         [HttpPut]

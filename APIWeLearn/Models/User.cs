@@ -1,6 +1,7 @@
 ﻿using APIWeLearn.Controllers;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 
 namespace APIWeLearn.Models {
     public class User 
@@ -27,7 +28,7 @@ namespace APIWeLearn.Models {
         private string? pierSitReg;
 
         [JsonConstructor]
-        public User(string? name, string? email, string? senha, int? userType) {
+        public User(string? name = "", string? email = "", string? senha = "", int? userType = 1) {
             this.name = name;
             this.email = email;
             this.password = senha;
@@ -68,35 +69,30 @@ namespace APIWeLearn.Models {
             }
         }
 
-        internal static User SearchUser(int pIdUser) {
+        internal void SearchUser() {
             try {
                 fConection.Open();
-                MySqlCommand lQry = new MySqlCommand(UserSQL.searchUsers, fConection);
-                lQry.Parameters.AddWithValue("@id_usuario", pIdUser);
-
-                User user = null;
+                MySqlCommand lQry = new MySqlCommand(UserSQL.searchUser, fConection);
+                lQry.Parameters.AddWithValue("@email", this.email);
+                lQry.Parameters.AddWithValue("@password", this.password);
 
                 MySqlDataReader reader = lQry.ExecuteReader();
 
                 if (reader.Read()) {
-                    user = new User(
-                        int.Parse(reader["id_usuario"].ToString()!),
-                        reader["nome_usuario"].ToString()!,
-                        reader["email"].ToString()!,
-                        reader["senha"].ToString()!,
-                        int.Parse(reader["tipo_usuario"].ToString()!),
-                        DateTime.Parse(reader["data_cadastro"].ToString()!),
-                        reader["pier_sit_reg"].ToString()!
-                        );
+                    this.id = int.Parse(reader["id_usuario"].ToString()!);
+                    this.name = reader["nome_usuario"].ToString()!;
+                    this.email = reader["email"].ToString()!;
+                    this.password = ""; //reader["senha"].ToString()!;
+                    this.UserType = int.Parse(reader["tipo_usuario"].ToString()!);
+                    this.registerDate = DateTime.Parse(reader["data_cadastro"].ToString()!);
+                    this.pierSitReg = reader["pier_sit_reg"].ToString()!;
                 }
                 fConection.Close();
-                return user!;
 
             }
             catch (Exception e) {
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
-                return null!;
             }
         }
 

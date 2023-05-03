@@ -11,10 +11,11 @@
             "INSERT INTO usuarios(nome_usuario, email, senha, tipo_usuario, data_cadastro, pier_sit_reg)" +
             "VALUES(@name, @email, @password, @userType, @data, 'ATV')";
 
-        public const string searchUsers = 
+        public const string searchUser = 
             "SELECT * " +
             "FROM usuarios " +
-            "WHERE id_usuario = @id_usuario " +
+            "WHERE email = @email " +
+            "AND senha = @password " +
             "AND pier_sit_reg = 'ATV' ";
 
         public const string editUser = 
