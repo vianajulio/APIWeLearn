@@ -10,13 +10,23 @@ namespace APIWeLearn.Controllers
     public class UserController : Controller 
     {
         [HttpPost]
-        public IActionResult PostUser(string value) {
+        public IActionResult PostUser(string value)
+        {
             User? user = JsonConvert.DeserializeObject<User>(value);
             return Content(user!.InsertUser());
         }
 
         [HttpGet]
         public IActionResult GetUser(string json) {
+            User? user = JsonConvert.DeserializeObject<User>(json);
+            user.SearchUser();
+            return new JsonResult(
+                JsonConvert.SerializeObject(user));
+        }
+
+        [HttpPost("login")]
+        public IActionResult LoginUser(string json)
+        {
             User? user = JsonConvert.DeserializeObject<User>(json);
             user.SearchUser();
             return new JsonResult(
