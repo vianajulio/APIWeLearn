@@ -25,12 +25,10 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult LoginUser(string json)
+        public IActionResult LoginUser([FromBody] User user)
         {
-            User? user = JsonConvert.DeserializeObject<User>(json);
-            user.SearchUser();
-            return new JsonResult(
-                JsonConvert.SerializeObject(user));
+            user.loginUser(user.Email, user.Password);
+            return Ok(user);
         }
 
         [HttpPut]

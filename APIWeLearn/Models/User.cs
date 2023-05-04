@@ -47,6 +47,8 @@ namespace APIWeLearn.Models {
             this.pierSitReg = pierSitReg;
         }
 
+        public User() { }
+
         internal string InsertUser() {
             try {
                 fConection.Open();
@@ -95,6 +97,38 @@ namespace APIWeLearn.Models {
                     fConection.Close();
             }
         }
+
+        internal void loginUser(string email, string password)
+        {
+            try
+            {
+                fConection.Open();
+                MySqlCommand lQry = new MySqlCommand(UserSQL.searchUser, fConection);
+                lQry.Parameters.AddWithValue("@email", email);
+                lQry.Parameters.AddWithValue("@password", password);
+
+                MySqlDataReader reader = lQry.ExecuteReader();
+                
+                if (reader.Read())
+                {
+                    this.id = int.Parse(reader["id_usuario"].ToString()!);
+                    this.name = reader["nome_usuario"].ToString()!;
+                    this.email = reader["email"].ToString()!;
+                    this.password = ""; //reader["senha"].ToString()!;
+                    this.UserType = int.Parse(reader["tipo_usuario"].ToString()!);
+                    this.registerDate = DateTime.Parse(reader["data_cadastro"].ToString()!);
+                    this.pierSitReg = reader["pier_sit_reg"].ToString()!;
+                }
+                fConection.Close();
+
+            }
+            catch (Exception e)
+            {
+                if (fConection.State == System.Data.ConnectionState.Open)
+                    fConection.Close();
+            }
+        }
+
 
         internal string EditUser() {
             try {
