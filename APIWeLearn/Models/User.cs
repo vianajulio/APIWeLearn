@@ -37,7 +37,7 @@ namespace APIWeLearn.Models {
             pierSitReg = "ATV";
         }
 
-        public User(int? id, string? name, string? email, string? senha, int? userType, DateTime registerDate, string pierSitReg) {
+        public User(int? id, string? name, string? email, string? senha, int? userType, DateTime? registerDate, string? pierSitReg) {
             this.id = id;
             this.name = name;
             this.email = email;
