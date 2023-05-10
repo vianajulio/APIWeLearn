@@ -15,8 +15,14 @@
             "SELECT * " +
             "FROM usuarios " +
             "WHERE email = @email " +
-            "AND senha = @password " +
             "AND pier_sit_reg = 'ATV' ";
+
+        public const string loginUser =
+          "SELECT * " +
+          "FROM usuarios " +
+          "WHERE email = @email " +
+          "AND senha = @password " +
+          "AND pier_sit_reg = 'ATV' ";
 
         public const string editUser = 
             "UPDATE usuarios " +

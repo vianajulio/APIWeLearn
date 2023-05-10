@@ -6,17 +6,6 @@ using System.Runtime.CompilerServices;
 namespace APIWeLearn.Models {
     public class User 
     {
-        //static MySqlConnection fConection = new MySqlConnection(
-        //    "server=localhost;database=we_learn_db;user id=root; password=");
-
-
-        //const string cSqlInsertUser = "INSERT INTO usuarios(nome_usuario, email, senha, tipo_usuario, data_cadastro, pier_sit_reg)" +
-        //            "VALUES(@name, @email, @password, @userType, @data, 'ATV')";
-
-        //const string cSqlSeachUsers = "SELECT * FROM usuarios WHERE id_usuario = @id_usuario";
-
-        //const string cSqlEditUser = "UPDATE usuarios SET nome_usuario = @userName, senha = @userPassword, pier_sit_reg = @pierSitReg WHERE id_usuario = @idUser";
-
         static MySqlConnection fConection = new MySqlConnection(UserSQL.connectiondb);
 
         private int? id;
@@ -27,29 +16,20 @@ namespace APIWeLearn.Models {
         private DateTime? registerDate;
         private string? pierSitReg;
 
-        [JsonConstructor]
-        public User(string? name = "", string? email = "", string? senha = "", int? userType = 1) {
-            this.name = name;
-            this.email = email;
-            this.password = senha;
-            this.userType = userType;
-            registerDate = DateTime.Now;
-            pierSitReg = "ATV";
-        }
 
-        public User(int? id, string? name, string? email, string? senha, int? userType, DateTime? registerDate, string? pierSitReg) {
+        public User(DateTime? dateTime, int? id = 0, string? name = "", string? email = "", string? senha = "", int? userType = 1, string? pierSitReg = "ATV") {
             this.id = id;
             this.name = name;
             this.email = email;
             this.password = senha;
             this.userType = userType;
-            this.registerDate = registerDate;
+            this.registerDate = dateTime;
             this.pierSitReg = pierSitReg;
         }
-
         public User() { }
 
-        internal string InsertUser() {
+
+        internal bool InsertUser() {
             try {
                 fConection.Open();
                 MySqlCommand lQuery = new MySqlCommand(UserSQL.insertUser, fConection);
@@ -61,66 +41,69 @@ namespace APIWeLearn.Models {
 
                 lQuery.ExecuteNonQuery();
                 fConection.Close();
-                return $"Usuário {this.name} cadastrado com sucesso!";
+                return true;
 
             }
             catch (Exception e) {
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
-                return e.Message;
+                return false;
             }
         }
 
-        internal void SearchUser() {
+        public User SearchUser() {
             try {
+                User user = new User();
                 fConection.Open();
                 MySqlCommand lQry = new MySqlCommand(UserSQL.searchUser, fConection);
                 lQry.Parameters.AddWithValue("@email", this.email);
-                lQry.Parameters.AddWithValue("@password", this.password);
 
                 MySqlDataReader reader = lQry.ExecuteReader();
 
                 if (reader.Read()) {
-                    this.id = int.Parse(reader["id_usuario"].ToString()!);
-                    this.name = reader["nome_usuario"].ToString()!;
-                    this.email = reader["email"].ToString()!;
-                    this.password = ""; //reader["senha"].ToString()!;
-                    this.UserType = int.Parse(reader["tipo_usuario"].ToString()!);
-                    this.registerDate = DateTime.Parse(reader["data_cadastro"].ToString()!);
-                    this.pierSitReg = reader["pier_sit_reg"].ToString()!;
+                    user.id = reader.GetInt32("id_usuario");
+                    user.name = reader.GetString("nome_usuario");
+                    user.email = reader.GetString("email");
+                    user.UserType = reader.GetInt32("tipo_usuario");
+                    user.registerDate = reader.GetDateTime("data_cadastro");
+                    user.pierSitReg = reader.GetString("pier_sit_reg");
+                } else
+                {
+                    return null;
                 }
                 fConection.Close();
-
+                return user;
             }
             catch (Exception e) {
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
+                return null;
             }
         }
 
-        internal void loginUser(string email, string password)
+        public void LoginUser()
+        
         {
             try
             {
                 fConection.Open();
-                MySqlCommand lQry = new MySqlCommand(UserSQL.searchUser, fConection);
-                lQry.Parameters.AddWithValue("@email", email);
-                lQry.Parameters.AddWithValue("@password", password);
+                MySqlCommand lQry = new MySqlCommand(UserSQL.loginUser, fConection);
+                lQry.Parameters.AddWithValue("@email", this.email);
+                lQry.Parameters.AddWithValue("@password", this.password);
 
                 MySqlDataReader reader = lQry.ExecuteReader();
                 
                 if (reader.Read())
                 {
-                    this.id = int.Parse(reader["id_usuario"].ToString()!);
-                    this.name = reader["nome_usuario"].ToString()!;
-                    this.email = reader["email"].ToString()!;
-                    this.password = ""; //reader["senha"].ToString()!;
-                    this.UserType = int.Parse(reader["tipo_usuario"].ToString()!);
-                    this.registerDate = DateTime.Parse(reader["data_cadastro"].ToString()!);
-                    this.pierSitReg = reader["pier_sit_reg"].ToString()!;
+                    this.id = reader.GetInt32("id_usuario");
+                    this.name = reader.GetString("nome_usuario");
+                    this.email = reader.GetString("email");
+                    this.password = reader.GetString("senha");
+                    this.UserType = reader.GetInt32("id_usuario");
+                    this.registerDate = reader.GetDateTime("data_cadastro") ;
+                    this.pierSitReg = reader.GetString("pier_sit_reg");
                 }
                 fConection.Close();
-
             }
             catch (Exception e)
             {
@@ -130,7 +113,7 @@ namespace APIWeLearn.Models {
         }
 
 
-        internal string EditUser() {
+        internal bool EditUser() {
             try {
                 fConection.Open();
                 MySqlCommand lQry = new MySqlCommand(UserSQL.editUser, fConection);
@@ -140,14 +123,15 @@ namespace APIWeLearn.Models {
                 lQry.Parameters.AddWithValue("@idUser", this.id);
 
                 lQry.ExecuteNonQuery();
+
                 fConection.Close();
-                return $"Usuário {this.name} editado com sucesso!";
+                return true;
             }
             catch (Exception e) {
 
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
-                return e.Message;
+                return false;
             }
         }
 
