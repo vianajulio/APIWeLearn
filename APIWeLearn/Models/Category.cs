@@ -15,26 +15,28 @@ namespace APIWeLearn.Models {
 
         static MySqlConnection fConection = new MySqlConnection(CategorySQL.connectiondb);
 
-        private int id;
+        private int? id;
         private string? name;
         private string? description;
         private string? pierSitReg;
 
-        public Category(int id, string? name, string? description, string? pierSitReg) {
-            this.Id = id;
-            this.Name = name!;
-            this.Description = description!;
-            this.PierSitReg = pierSitReg!;
+        public Category() { }
+        public Category(int? id = 0, string? name = "", string? description = "", string? pierSitReg = "") {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.pierSitReg = pierSitReg;
         }
 
-        [JsonConstructor]
+
+        /*[JsonConstructor]
         public Category(string? name, string? description) {
             this.Name = name!;
             this.Description = description!;
             pierSitReg = "ATV";
-        }
+        }*/
 
-        internal string InsertCategory() {
+        internal bool InsertCategory() {
             try {
                 fConection.Open();
                 MySqlCommand lQry = new MySqlCommand(CategorySQL.insertCategory, fConection);
@@ -43,14 +45,15 @@ namespace APIWeLearn.Models {
 
                 lQry.ExecuteNonQuery();
                 fConection.Close();
-                return $"Category {this.name} cadastrada com sucesso!";
+                /*return $"Category {this.name} cadastrada com sucesso!";*/
+                return true;
 
             }
             catch (Exception e) {
 
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
-                return e.Message;
+                return false;
             }
         }
 
@@ -82,9 +85,9 @@ namespace APIWeLearn.Models {
             }
         }
 
-        public int Id { get => id; set => id = value; }
-        public string Name { get => name!; set => name = value; }
-        public string Description { get => description!; set => description = value; }
-        public string PierSitReg { get => pierSitReg!; set => pierSitReg = value; }
+        public int? Id { get => id; set => id = value; }
+        public string? Name { get => name; set => name = value; }
+        public string? Description { get => description; set => description = value; }
+        public string? PierSitReg { get => pierSitReg; set => pierSitReg = value; }
     }
 }

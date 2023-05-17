@@ -1,6 +1,6 @@
 ﻿namespace APIWeLearn.Controllers {
     public static class ConnectionMySql {
-        public const string connection = "server=welearndb.mariadb.database.azure.com;database=mydb;user id=welearnadmin@welearndb; password=Password?";
+        public const string connection = "server=localhost;database=mydb;user id=root; password=root";
     }
 
     public static class UserSQL {
@@ -44,6 +44,35 @@
             "SELECT * FROM categorias " +
             "WHERE id_categoria = @idCategory " +
             "AND pier_sit_reg = 'ATV'";
+    }
+
+    public static class TopicSQL
+
+    {
+        public const string connectiondb = ConnectionMySql.connection;
+
+        public const string insertTopico = 
+            "INSERT INTO topico(id_topico, assunto_topico, data_topico, " +
+            "id_catogoria_topico, id_usuario_topico, aulas_id_aula, " +
+            "aulas_id_usuario_aula, aulas_id_categoria_aula) " +
+            "VALUES(@assunto_topico, )";
+
+        public const string searchTopic =
+          "SELECT * FROM categorias " +
+          "WHERE id_topico = @idTopico " +
+          "AND pier_sit_reg = 'ATV'";
+        
+        public const string getTopics =
+          "SELECT topicos.id_topico " +
+            ", topicos.assunto_topico " +
+            ", topicos.pier_sit_reg " +
+            ", topicos.data_topico " +
+            ", c.nome_categoria " +
+            ", u.nome_usuario " +
+            " FROM topicos " +
+            " INNER JOIN categorias AS c ON topicos.id_categoria_topico = c.id_categoria " +
+            " INNER JOIN usuarios AS u ON topicos.id_usuario_topico = u.id_usuario;";
+
     }
 
     public static class ClassSQL {
