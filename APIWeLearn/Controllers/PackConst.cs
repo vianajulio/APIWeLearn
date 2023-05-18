@@ -1,6 +1,6 @@
 ﻿namespace APIWeLearn.Controllers {
     public static class ConnectionMySql {
-        public const string connection = "server=localhost;database=mydb;user id=root; password=root";
+        public const string connection = "server=dbwelearn.mariadb.database.azure.com;database=welearn;user id=adm_welearn@dbwelearn; password=Password?";
     }
 
     public static class UserSQL {
