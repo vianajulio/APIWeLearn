@@ -9,12 +9,12 @@ namespace APIWeLearn.Models
     {
         static MySqlConnection fConection = new MySqlConnection(UserSQL.connectiondb);
 
-        int? id;
-        string? assunto_topico;
-        string? pier_sit_reg;
-        DateTime? data_topico;
-        string? nome_categoria;
-        string? nome_usuario;
+        private int? id;
+        private string? assunto_topico;
+        private string? pier_sit_reg;
+        private DateTime? data_topico;
+        private string? nome_categoria;
+        private string? nome_usuario;
 
 
         public Topic_APP(int? id, string? assunto_topico, string? pier_sit_reg, DateTime? data,string? nome_categoria, string? nome_usuario)
@@ -44,11 +44,11 @@ namespace APIWeLearn.Models
                     Topic_APP topic = new Topic_APP();
 
                     topic.id = reader.GetInt32("id_topico");
-                    topic.pier_sit_reg = reader.GetString("pier_sit_reg");
                     topic.assunto_topico = reader.GetString("assunto_topico");
-                    topic.data_topico = reader.GetDateTime("data_topico");
-                    topic.nome_categoria = reader.GetString("nome_categoria");
                     topic.nome_usuario = reader.GetString("nome_usuario");
+                    topic.nome_categoria = reader.GetString("nome_categoria");
+                    topic.data_topico = reader.GetDateTime("data_topico");
+                    topic.pier_sit_reg = reader.GetString("pier_sit_reg");
 
                     topicsList.Add(topic);
                 }
@@ -72,9 +72,9 @@ namespace APIWeLearn.Models
         public int? Id { get => id; set => id = value; }
         public string? PierSitReg { get => pier_sit_reg; set => pier_sit_reg = value; }
         public string? Assunto { get => assunto_topico; set => assunto_topico = value; }
-        public DateTime? Data { get => data_topico; set => data_topico = value;}
+        public DateTime? Data { get => data_topico; set => data_topico = value; }
         public string? Categoria { get => nome_categoria; set => nome_categoria = value; }
-        public string? Nome_Usuario { get => nome_usuario; set  => nome_usuario = value;}
+        public string? Nome_Usuario { get => nome_usuario; set => nome_usuario = value; }
 
     }
 }

@@ -15,17 +15,16 @@ namespace APIWeLearn.Controllers
         [HttpGet("listar")]
         public IActionResult GetTopic()
         {
-            Topic_APP topic = new Topic_APP();
-            List<Topic_APP> listTopics = topic.getTopics();
+            Topic topic = new Topic();
+            List<Topic> listTopics = topic.getTopics();
             if (listTopics == null || listTopics.Count == 0)
             {
                 return NotFound();
             }
-            
+
             return Ok(listTopics);
 
         }
-
 
     }
 }
