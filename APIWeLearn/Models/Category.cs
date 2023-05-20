@@ -44,7 +44,7 @@ namespace APIWeLearn.Models {
             finally { fConection.Close(); }
         }
 
-        internal List<Category> getCategory() {
+        internal static List<Category> getCategory() {
             try {
                 List<Category> categories = new List<Category>();
 
