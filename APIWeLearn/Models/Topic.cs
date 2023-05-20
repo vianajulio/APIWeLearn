@@ -70,6 +70,10 @@ namespace APIWeLearn.Models
                 throw;
                 return null;
             }
+            finally
+            {
+                fConection.Close();
+            }
         }
         public int? Id { get => id_topico; set => id_topico = value; }
         public string? Assunto { get => assunto_topico; set => assunto_topico = value; }

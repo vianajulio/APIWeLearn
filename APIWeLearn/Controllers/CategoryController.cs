@@ -21,11 +21,17 @@ namespace APIWeLearn.Controllers
 
         }
         
-        [HttpGet]
-        public ActionResult GetCategory(int pIdCategory)
+        [HttpGet("listar")]
+        public ActionResult GetCategory()
         {
-            return new JsonResult(
-                JsonConvert.SerializeObject(Category.SearchCategory(pIdCategory)));
+            List<Category> categories = new List<Category>();
+            categories = Category.getCategory();
+            if (categories.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(categories);
         }
      
 

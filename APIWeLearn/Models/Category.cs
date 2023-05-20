@@ -4,15 +4,6 @@ using Newtonsoft.Json;
 
 namespace APIWeLearn.Models {
     public class Category {
-        //static MySqlConnection fConection = new MySqlConnection(
-        //   "server=welearndb.mariadb.database.azure.com;database=mydb;user id=welearnadmin@welearndb; password=Password?");
-
-
-        //const string cSqlInsertClass = "INSERT INTO catogorias(nome_catogoria, descricao_Category, pier_sit_reg)" +
-        //    "VALUES(@name, @description, 'ATV')";
-
-        //const string cSqlSearchCategory = "SELECT * FROM catogorias WHERE id_catogoria = @idCategory";
-
         static MySqlConnection fConection = new MySqlConnection(CategorySQL.connectiondb);
 
         private int? id;
@@ -21,20 +12,17 @@ namespace APIWeLearn.Models {
         private string? pierSitReg;
 
         public Category() { }
-        public Category(int? id = 0, string? name = "", string? description = "", string? pierSitReg = "") {
+        public Category(int? id, string? name, string? description, string? pierSitReg) {
             this.id = id;
             this.name = name;
             this.description = description;
             this.pierSitReg = pierSitReg;
         }
-
-
-        /*[JsonConstructor]
-        public Category(string? name, string? description) {
-            this.Name = name!;
-            this.Description = description!;
-            pierSitReg = "ATV";
-        }*/
+        public Category(string name, string description)
+        {
+            this.name = name;
+            this.description = description;
+        }
 
         internal bool InsertCategory() {
             try {
@@ -57,31 +45,36 @@ namespace APIWeLearn.Models {
             }
         }
 
-        internal static Category SearchCategory(int pIdCategory) {
+        internal List<Category> getCategory() {
             try {
+                List<Category> categories = new List<Category>();
+
                 fConection.Open();
-                MySqlCommand lQry = new MySqlCommand(CategorySQL.searchCategory, fConection);
-                lQry.Parameters.AddWithValue("@idCategory", pIdCategory);
 
-                Category category = null;
-
+                MySqlCommand lQry = new MySqlCommand(CategorySQL.getCategory, fConection);
                 MySqlDataReader reader = lQry.ExecuteReader();
 
-                if (reader.Read()) {
-                    category = new Category(int.Parse(reader["id_categoria"].ToString()!),
-                        reader["nome_categoria"].ToString(),
-                        reader["descricao_categoria"].ToString(),
-                        reader["pier_sit_reg"].ToString()
-                        );
+                while (reader.Read())
+                {
+                    Category category = new Category();
+
+                    category.id = reader.GetInt32("id_categoria");
+                    category.name = reader.GetString("nome_categoria");
+                    category.description = reader.GetString("descricao_categoria");
+                    category.pierSitReg = reader.GetString("pier_sit_reg");
+
+                    categories.Add(category);
                 }
-                fConection.Close();
-                return category!;
+
+                return categories;
             }
             catch (Exception e) {
-
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
-                return null!;
+                throw;
+            }
+            finally {
+                fConection.Close();
             }
         }
 
