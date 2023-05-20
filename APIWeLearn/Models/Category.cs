@@ -32,8 +32,6 @@ namespace APIWeLearn.Models {
                 lQry.Parameters.AddWithValue("@description", this.description);
 
                 lQry.ExecuteNonQuery();
-                fConection.Close();
-                /*return $"Category {this.name} cadastrada com sucesso!";*/
                 return true;
 
             }
@@ -43,6 +41,7 @@ namespace APIWeLearn.Models {
                     fConection.Close();
                 return false;
             }
+            finally { fConection.Close(); }
         }
 
         internal List<Category> getCategory() {
