@@ -22,10 +22,10 @@ namespace APIWeLearn.Controllers
         }
         
         [HttpGet("listar")]
-        public ActionResult GetCategory()
+        public ActionResult GetAllCategory()
         {
             List<Category> categories = new List<Category>();
-            categories = Category.getCategory();
+            categories = Category.getAllCategory();
             if (categories.Count == 0)
             {
                 return NotFound();
@@ -33,7 +33,20 @@ namespace APIWeLearn.Controllers
 
             return Ok(categories);
         }
-     
+
+        [HttpGet("buscar")]
+        public ActionResult GetCategory(string nome_categoria)
+        {
+            Category categories = new Category();
+            categories = Category.getCategory(nome_categoria);
+            if (categories == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(categories);
+        }
+
 
     }
 }

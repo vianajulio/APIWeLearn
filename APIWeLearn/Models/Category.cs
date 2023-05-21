@@ -1,6 +1,7 @@
 ﻿using APIWeLearn.Controllers;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 
 namespace APIWeLearn.Models {
     public class Category {
@@ -44,13 +45,13 @@ namespace APIWeLearn.Models {
             finally { fConection.Close(); }
         }
 
-        internal static List<Category> getCategory() {
+        internal static List<Category> getAllCategory() {
             try {
                 List<Category> categories = new List<Category>();
 
                 fConection.Open();
 
-                MySqlCommand lQry = new MySqlCommand(CategorySQL.getCategory, fConection);
+                MySqlCommand lQry = new MySqlCommand(CategorySQL.getAllCategory, fConection);
                 MySqlDataReader reader = lQry.ExecuteReader();
 
                 while (reader.Read())
@@ -70,6 +71,36 @@ namespace APIWeLearn.Models {
             catch (Exception e) {
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
+                throw;
+            }
+            finally {
+                fConection.Close();
+            }
+        }
+
+        internal static Category getCategory(string nome_categoria)
+        {
+            try
+            {
+                Category category = new Category();
+                fConection.Open();
+
+                MySqlCommand lQry = new MySqlCommand(CategorySQL.getCategory, fConection);
+                lQry.Parameters.AddWithValue("@nome_categoria", nome_categoria);
+                MySqlDataReader reader = lQry.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    category.id = reader.GetInt32("id_categoria");
+                    category.name = reader.GetString("nome_categoria");
+                    category.description = reader.GetString("descricao_categoria");
+                    category.pierSitReg = reader.GetString("pier_sit_reg");
+
+                }
+
+                return category;
+            } catch (Exception e)
+            {
                 throw;
             }
             finally {

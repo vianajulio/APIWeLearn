@@ -40,9 +40,15 @@
             "INSERT INTO categorias(nome_categoria, descricao_categoria, pier_sit_reg) " +
             "VALUES(@name, @description, 'ATV')";
 
-        public const string getCategory = 
+        public const string getAllCategory = 
             "SELECT * FROM categorias " +
             "WHERE pier_sit_reg = 'ATV'";
+
+        public const string getCategory = 
+            "SELECT * FROM categorias " +
+            "WHERE nome_categoria = @nome_categoria " +
+            "AND pier_sit_reg = 'ATV'";
+
     }
 
     public static class TopicSQL
