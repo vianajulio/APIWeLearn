@@ -3,8 +3,10 @@ using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
 
-namespace APIWeLearn.Models {
-    public class Category {
+namespace APIWeLearn.Models
+{
+    public class Category
+    {
         static MySqlConnection fConection = new MySqlConnection(CategorySQL.connectiondb);
 
         private int? id;
@@ -13,7 +15,8 @@ namespace APIWeLearn.Models {
         private string? pierSitReg;
 
         public Category() { }
-        public Category(int? id, string? name, string? description, string? pierSitReg) {
+        public Category(int? id, string? name, string? description, string? pierSitReg)
+        {
             this.id = id;
             this.name = name;
             this.description = description;
@@ -25,8 +28,10 @@ namespace APIWeLearn.Models {
             this.description = description;
         }
 
-        internal bool InsertCategory() {
-            try {
+        internal bool InsertCategory()
+        {
+            try
+            {
                 fConection.Open();
                 MySqlCommand lQry = new MySqlCommand(CategorySQL.insertCategory, fConection);
                 lQry.Parameters.AddWithValue("@name", this.name);
@@ -36,7 +41,8 @@ namespace APIWeLearn.Models {
                 return true;
 
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
@@ -45,8 +51,10 @@ namespace APIWeLearn.Models {
             finally { fConection.Close(); }
         }
 
-        internal static List<Category> getAllCategory() {
-            try {
+        internal static List<Category> getAllCategory()
+        {
+            try
+            {
                 List<Category> categories = new List<Category>();
 
                 fConection.Open();
@@ -68,45 +76,18 @@ namespace APIWeLearn.Models {
 
                 return categories;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 if (fConection.State == System.Data.ConnectionState.Open)
                     fConection.Close();
                 throw;
             }
-            finally {
+            finally
+            {
                 fConection.Close();
             }
         }
 
-        internal static Category getCategory(string nome_categoria)
-        {
-            try
-            {
-                Category category = new Category();
-                fConection.Open();
-
-                MySqlCommand lQry = new MySqlCommand(CategorySQL.getCategory, fConection);
-                lQry.Parameters.AddWithValue("@nome_categoria", nome_categoria);
-                MySqlDataReader reader = lQry.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    category.id = reader.GetInt32("id_categoria");
-                    category.name = reader.GetString("nome_categoria");
-                    category.description = reader.GetString("descricao_categoria");
-                    category.pierSitReg = reader.GetString("pier_sit_reg");
-
-                }
-
-                return category;
-            } catch (Exception e)
-            {
-                throw;
-            }
-            finally {
-                fConection.Close();
-            }
-        }
 
         public int? Id { get => id; set => id = value; }
         public string? Name { get => name; set => name = value; }

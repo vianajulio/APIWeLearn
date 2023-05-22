@@ -1,4 +1,5 @@
 ﻿using APIWeLearn.Controllers;
+using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
 
 namespace APIWeLearn.Models
@@ -75,6 +76,44 @@ namespace APIWeLearn.Models
                 fConection.Close();
             }
         }
+        internal static List<Topic> getSelectedTopics(string nome_categoria)
+        {
+            try
+            {
+                List<Topic> topics = new List<Topic>();
+                fConection.Open();
+
+                MySqlCommand lQry = new MySqlCommand(TopicSQL.getSelectedTopics, fConection);
+                lQry.Parameters.AddWithValue("@nomeCategoria", nome_categoria);
+                MySqlDataReader reader = lQry.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Topic topic = new Topic();
+
+                    topic.id_topico = reader.GetInt32("id_topico");
+                    topic.assunto_topico = reader.GetString("assunto_topico");
+                    topic.nome_usuario = reader.GetString("nome_usuario");
+                    topic.nome_categoria = reader.GetString("nome_categoria");
+                    topic.data_topico = reader.GetDateTime("data_topico");
+                    topic.pier_sit_reg = reader.GetString("pier_sit_reg");
+
+
+                    topics.Add(topic);
+                }
+
+                return topics;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                fConection.Close();
+            }
+        }
+
         public int? Id { get => id_topico; set => id_topico = value; }
         public string? Assunto { get => assunto_topico; set => assunto_topico = value; }
         public string? Categoria { get => nome_categoria; set => nome_categoria = value; }

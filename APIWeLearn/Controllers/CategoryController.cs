@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 
 namespace APIWeLearn.Controllers
 {
-    [ApiController]
     [Route("api/categoria")]
+    [ApiController]
     public class CategoryController : Controller
     {
         [HttpPost("criar")]
@@ -34,18 +34,6 @@ namespace APIWeLearn.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("buscar")]
-        public ActionResult GetCategory(string nome_categoria)
-        {
-            Category categories = new Category();
-            categories = Category.getCategory(nome_categoria);
-            if (categories == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(categories);
-        }
 
 
     }

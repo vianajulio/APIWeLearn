@@ -25,6 +25,19 @@ namespace APIWeLearn.Controllers
             return Ok(listTopics);
 
         }
+        
+        [HttpGet]
+        [Route("buscar/{nome_categoria}")]
+        public ActionResult GetSelectedCategory(string nome_categoria)
+        {
+            List<Topic> topics = new List<Topic>();
+            topics = Topic.getSelectedTopics(nome_categoria);
+            if (topics == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(topics);
+        }
     }
 }

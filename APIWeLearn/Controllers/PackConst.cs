@@ -44,11 +44,7 @@
             "SELECT * FROM categorias " +
             "WHERE pier_sit_reg = 'ATV'";
 
-        public const string getCategory = 
-            "SELECT * FROM categorias " +
-            "WHERE nome_categoria = @nome_categoria " +
-            "AND pier_sit_reg = 'ATV'";
-
+       
     }
 
     public static class TopicSQL
@@ -77,6 +73,18 @@
             " FROM topicos " +
             " INNER JOIN categorias AS c ON topicos.id_categoria_topico = c.id_categoria " +
             " INNER JOIN usuarios AS u ON topicos.id_usuario_topico = u.id_usuario;";
+
+        public const string getSelectedTopics =
+           "SELECT topicos.id_topico " +
+            ", topicos.assunto_topico " +
+            ", topicos.pier_sit_reg " +
+            ", topicos.data_topico " +
+            ", c.nome_categoria " +
+            ", u.nome_usuario " +
+            " FROM topicos " +
+            " INNER JOIN categorias AS c ON topicos.id_categoria_topico = c.id_categoria " +
+            " INNER JOIN usuarios AS u ON topicos.id_usuario_topico = u.id_usuario " +
+            " WHERE c.nome_categoria = @nomeCategoria;";
 
     }
 
