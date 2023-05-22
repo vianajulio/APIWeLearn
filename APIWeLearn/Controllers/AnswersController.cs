@@ -5,7 +5,7 @@ using Mysqlx;
 namespace APIWeLearn.Controllers
 {
     [ApiController]
-    [Route("api/topico")]
+    [Route("api/respostas")]
     public class AnswersController : Controller
     {
         [HttpGet]
