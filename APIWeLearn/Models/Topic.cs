@@ -110,6 +110,7 @@ namespace APIWeLearn.Models
         }
 
         public int? Id { get => id_topico; set => id_topico = value; }
+        public string? Titulo_Topico { get => titulo_topico; set => titulo_topico = value; }
         public string? Assunto { get => assunto_topico; set => assunto_topico = value; }
         public string? Categoria { get => nome_categoria; set => nome_categoria = value; }
         public string? Nome_Usuario { get => nome_usuario; set => nome_usuario = value; }
