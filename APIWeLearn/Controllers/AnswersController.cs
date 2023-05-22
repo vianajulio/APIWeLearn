@@ -9,7 +9,7 @@ namespace APIWeLearn.Controllers
     public class AnswersController : Controller
     {
         [HttpGet]
-        [Route("listar{id_topico}")]
+        [Route("listar/{id_topico}")]
         public IActionResult GetAnswers(int id_topico)
         {
             List<Answers> answers = new List<Answers>();
