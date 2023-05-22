@@ -47,7 +47,22 @@
         public const string getAllCategory =
             "SELECT * FROM categorias " +
             "WHERE pier_sit_reg = 'ATV'";
+    }
 
+    public static class AnswersSQL
+    {
+        public const string connectiondb = ConnectionMySql.connection;
+
+        public const string getAllAnswers = 
+            "SELECT respostas.id_resposta" +
+            ", conteudo_resposta" +
+            ", data_resposta" +
+            ", respostas.pier_sit_reg" +
+            ", u.nome_usuario" +
+            " FROM respostas " +
+            " INNER JOIN usuarios AS u ON respostas.id_usuario_resposta = u.id_usuario" +
+            " INNER JOIN topicos AS t ON respostas.id_topico_resposta = t.id_topico " +
+            " WHERE t.id_topico = @id_topico";
 
     }
 

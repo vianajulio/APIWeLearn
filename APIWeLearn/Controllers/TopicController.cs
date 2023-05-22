@@ -1,10 +1,6 @@
 ﻿using APIWeLearn.Controllers;
 using APIWeLearn.Models;
-using APIWeLearn.Resquest;
 using Microsoft.AspNetCore.Mvc;
-using Mysqlx;
-using Newtonsoft.Json;
-using System.Text.Json.Nodes;
 
 namespace APIWeLearn.Controllers
 {
