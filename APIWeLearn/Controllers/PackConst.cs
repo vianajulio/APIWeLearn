@@ -1,9 +1,12 @@
-﻿namespace APIWeLearn.Controllers {
-    public static class ConnectionMySql {
+﻿namespace APIWeLearn.Controllers
+{
+    public static class ConnectionMySql
+    {
         public const string connection = "server=dbwelearn.mariadb.database.azure.com;database=welearn;user id=adm_welearn@dbwelearn; password=Password?";
     }
 
-    public static class UserSQL {
+    public static class UserSQL
+    {
         public const string connectiondb = ConnectionMySql.connection;
 
         /* Métodos SQL User */
@@ -11,7 +14,7 @@
             "INSERT INTO usuarios(nome_usuario, email, senha, tipo_usuario, data_cadastro, pier_sit_reg)" +
             "VALUES(@name, @email, @password, @userType, @data, 'ATV')";
 
-        public const string searchUser = 
+        public const string searchUser =
             "SELECT * " +
             "FROM usuarios " +
             "WHERE email = @email " +
@@ -24,7 +27,7 @@
           "AND senha = @password " +
           "AND pier_sit_reg = 'ATV' ";
 
-        public const string editUser = 
+        public const string editUser =
             "UPDATE usuarios " +
             "SET nome_usuario = @userName " +
             ", senha = @userPassword " +
@@ -32,19 +35,20 @@
             " WHERE id_usuario = @idUser";
     }
 
-    public static class CategorySQL {
+    public static class CategorySQL
+    {
         public const string connectiondb = ConnectionMySql.connection;
 
         /* Métodos SQL Category */
-        public const string insertCategory = 
+        public const string insertCategory =
             "INSERT INTO categorias(nome_categoria, descricao_categoria, pier_sit_reg) " +
             "VALUES(@name, @description, 'ATV')";
 
-        public const string getAllCategory = 
+        public const string getAllCategory =
             "SELECT * FROM categorias " +
             "WHERE pier_sit_reg = 'ATV'";
 
-       
+
     }
 
     public static class TopicSQL
@@ -52,7 +56,7 @@
     {
         public const string connectiondb = ConnectionMySql.connection;
 
-        public const string insertTopico = 
+        public const string insertTopico =
             "INSERT INTO topico(id_topico, assunto_topico, data_topico, " +
             "id_catogoria_topico, id_usuario_topico, aulas_id_aula, " +
             "aulas_id_usuario_aula, aulas_id_categoria_aula) " +
@@ -62,9 +66,10 @@
           "SELECT * FROM categorias " +
           "WHERE id_topico = @idTopico " +
           "AND pier_sit_reg = 'ATV'";
-        
+
         public const string getTopics =
           "SELECT topicos.id_topico " +
+            ", topicos.titulo_topico " +
             ", topicos.assunto_topico " +
             ", topicos.pier_sit_reg " +
             ", topicos.data_topico " +
@@ -76,6 +81,7 @@
 
         public const string getSelectedTopics =
            "SELECT topicos.id_topico " +
+            ", topicos.titulo_topico " +
             ", topicos.assunto_topico " +
             ", topicos.pier_sit_reg " +
             ", topicos.data_topico " +
@@ -88,7 +94,8 @@
 
     }
 
-    public static class ClassSQL {
+    public static class ClassSQL
+    {
         public const string connectiondb = ConnectionMySql.connection;
 
         /* Métodos SQL Class*/

@@ -9,6 +9,7 @@ namespace APIWeLearn.Models
         static MySqlConnection fConection = new MySqlConnection(UserSQL.connectiondb);
 
         int? id_topico;
+        string? titulo_topico;
         string? assunto_topico;
         string? nome_usuario;
         string? nome_categoria;
@@ -17,22 +18,14 @@ namespace APIWeLearn.Models
         string? pier_sit_reg;
 
         //Construtor para realizar post, put e remove
-        public Topic(int? id, string? assunto, DateTime? data, string? id_categoria, string? nome_usuario, int? id_aula_topico, string? pier_sit_reg) {
+        public Topic(int? id, string? titulo_topico, string? assunto, DateTime? data, string? id_categoria, string? nome_usuario, int? id_aula_topico, string? pier_sit_reg) {
             this.id_topico = id;
+            this.titulo_topico = titulo_topico;
             this.assunto_topico = assunto;
             this.nome_usuario = nome_usuario;
             this.nome_categoria = id_categoria;
             this.data_topico = data;
             this.id_aula_topico = id_aula_topico;
-            this.pier_sit_reg = pier_sit_reg;
-        }
-        //Construtor para get
-        public Topic(int? id, string? assunto_topico, string? nome_usuario, DateTime? data, string? nome_categoria, string? pier_sit_reg) {
-            this.id_topico = id;
-            this.assunto_topico = assunto_topico;
-            this.nome_usuario = nome_usuario;
-            this.nome_categoria = nome_categoria;
-            this.data_topico = data;
             this.pier_sit_reg = pier_sit_reg;
         }
 
@@ -53,6 +46,7 @@ namespace APIWeLearn.Models
                     Topic topic = new Topic();
 
                     topic.id_topico = reader.GetInt32("id_topico");
+                    topic.titulo_topico = reader.GetString("titulo_topico");
                     topic.assunto_topico = reader.GetString("assunto_topico");
                     topic.nome_usuario = reader.GetString("nome_usuario");
                     topic.nome_categoria = reader.GetString("nome_categoria");
@@ -92,6 +86,7 @@ namespace APIWeLearn.Models
                     Topic topic = new Topic();
 
                     topic.id_topico = reader.GetInt32("id_topico");
+                    topic.titulo_topico = reader.GetString("titulo_topico");
                     topic.assunto_topico = reader.GetString("assunto_topico");
                     topic.nome_usuario = reader.GetString("nome_usuario");
                     topic.nome_categoria = reader.GetString("nome_categoria");
