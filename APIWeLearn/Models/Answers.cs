@@ -59,6 +59,6 @@ namespace APIWeLearn.Models
         public DateTime? Data_resposta { get => data_resposta; set => data_resposta = value; }
         public string? Pier_sit_Reg { get => pier_sit_reg; set => pier_sit_reg = value; }
         public string? Nome_usuario { get => nome_usuario; set => nome_usuario = value; }
-        public string? Assunto_opico { get => assunto_topico; set => assunto_topico = value; }
+        public string? Assunto_topico { get => assunto_topico; set => assunto_topico = value; }
     }
 }
