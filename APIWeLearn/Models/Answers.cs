@@ -10,15 +10,15 @@ namespace APIWeLearn.Models
 
         int? id;
         string? nome_usuario;
-        string? assunto_topico;
+        string? conteudo_resposta;
         DateTime? data_resposta;
         string? pier_sit_reg;
 
-        public Answers(int? id, DateTime? data_resposta, string? pier_sit_reg, string? nome_usuario, string? assunto_topico)
+        public Answers(int? id, DateTime? data_resposta, string? pier_sit_reg, string? nome_usuario, string? conteudo_resposta)
         {
             this.id = id;
             this.nome_usuario = nome_usuario;
-            this.assunto_topico = assunto_topico;
+            this.conteudo_resposta = conteudo_resposta;
             this.data_resposta = data_resposta;
             this.pier_sit_reg = pier_sit_reg;
         }
@@ -42,7 +42,7 @@ namespace APIWeLearn.Models
 
                     answers.id = reader.GetInt32("id_resposta");
                     answers.nome_usuario = reader.GetString("nome_usuario");
-                    answers.assunto_topico = reader.GetString("conteudo_resposta");
+                    answers.conteudo_resposta = reader.GetString("conteudo_resposta");
                     answers.data_resposta = reader.GetDateTime("data_resposta");
                     answers.pier_sit_reg = reader.GetString("pier_sit_reg");
 
@@ -59,6 +59,6 @@ namespace APIWeLearn.Models
         public DateTime? Data_resposta { get => data_resposta; set => data_resposta = value; }
         public string? Pier_sit_Reg { get => pier_sit_reg; set => pier_sit_reg = value; }
         public string? Nome_usuario { get => nome_usuario; set => nome_usuario = value; }
-        public string? Assunto_topico { get => assunto_topico; set => assunto_topico = value; }
+        public string? Conteudo_resposta { get => conteudo_resposta; set => conteudo_resposta = value; }
     }
 }
