@@ -1,5 +1,4 @@
 ﻿using APIWeLearn.Models;
-using APIWeLearn.Resquest;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -10,7 +9,7 @@ namespace APIWeLearn.Controllers
     public class CategoryController : Controller
     {
         [HttpPost("criar")]
-        public ActionResult PostCategory([FromBody] CategoryRequest newCategory)
+        public ActionResult PostCategory([FromBody] Category newCategory)
         {
             Category category = new Category(name: newCategory.Name, description: newCategory.Description);
             if (category.InsertCategory())

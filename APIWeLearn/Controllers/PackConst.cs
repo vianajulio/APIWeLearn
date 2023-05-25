@@ -64,6 +64,13 @@
             " INNER JOIN topicos AS t ON respostas.id_topico_resposta = t.id_topico " +
             " WHERE t.id_topico = @id_topico";
 
+        public const string postAnswers =
+            "INSERT INTO respostas ( id_topico_resposta, conteudo_resposta, id_usuario_resposta" +
+            ", data_resposta, pier_sit_reg)" +
+            " VALUES (@id_topico_resposta, @conteudo_resposta, @id_usuario_resposta" +
+            ", @data_resposta, @pier_sit_reg)";
+
+
     }
 
     public static class TopicSQL
@@ -71,11 +78,13 @@
     {
         public const string connectiondb = ConnectionMySql.connection;
 
-        public const string insertTopico =
-            "INSERT INTO topico(id_topico, assunto_topico, data_topico, " +
-            "id_catogoria_topico, id_usuario_topico, aulas_id_aula, " +
-            "aulas_id_usuario_aula, aulas_id_categoria_aula) " +
-            "VALUES(@assunto_topico, )";
+        public const string postTopico =
+            "INSERT INTO topicos(titulo_topico, assunto_topico, data_topico" +
+            ", id_categoria_topico, id_usuario_topico, id_aula_topico" +
+            ", pier_sit_reg) " +
+            " VALUES(@titulo_topico,@assunto_topico, @data_topico" +
+            ", @id_categoria_topico, @id_usuario_topico, @id_aula_topico" +
+            ", @pier_sit_reg)";
 
         public const string searchTopic =
           "SELECT * FROM categorias " +

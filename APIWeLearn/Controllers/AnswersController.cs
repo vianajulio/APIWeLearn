@@ -21,6 +21,15 @@ namespace APIWeLearn.Controllers
             return Ok(answers);
         }
 
+        [HttpPost("cadastrar")]
+        public IActionResult postAnswer(Answers answer)
+        {
+            if (Answers.postAnswer(answer))
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
 
     }
 }

@@ -2,8 +2,10 @@
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 
-namespace APIWeLearn.Models {
-    public class Class {
+namespace APIWeLearn.Models
+{
+    public class Class
+    {
         static MySqlConnection fConnection = new MySqlConnection(ClassSQL.connectiondb);
 
         private int? id;
@@ -18,7 +20,8 @@ namespace APIWeLearn.Models {
 
         [JsonConstructor]
         public Class(int? id, string? title, string? description, string? thumbnail,
-            string? video, DateTime? date, int? id_user_class, int? id_category_class, string? pierSitReg) {
+            string? video, DateTime? date, int? id_user_class, int? id_category_class, string? pierSitReg)
+        {
             this.Id = id;
             this.Title = title!;
             this.Description = description!;
@@ -31,7 +34,8 @@ namespace APIWeLearn.Models {
         }
 
         public Class(int? id, string? title, string? description, string? thumbnail,
-    string? video, DateTime? date) {
+            string? video, DateTime? date)
+        {
             this.Id = id;
             this.Title = title!;
             this.Description = description!;
@@ -41,7 +45,8 @@ namespace APIWeLearn.Models {
         }
 
         public Class(string? title, string? description, string? thumbnail, string? video,
-            int? id_user_class, int? id_category_class) {
+            int? id_user_class, int? id_category_class)
+        {
             this.Title = title!;
             this.Description = description!;
             this.Thumbnail = thumbnail!;
@@ -52,8 +57,10 @@ namespace APIWeLearn.Models {
             pierSitReg = "ATV";
         }
 
-        internal string InsertClass() {
-            try {
+        internal string InsertClass()
+        {
+            try
+            {
                 fConnection.Open();
                 MySqlCommand lQry = new MySqlCommand(ClassSQL.insertClass, fConnection);
                 lQry.Parameters.AddWithValue("@title", this.title);
@@ -69,7 +76,8 @@ namespace APIWeLearn.Models {
                 return $"Class {this.title} cadastrada com sucesso!";
 
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
                 if (fConnection.State == System.Data.ConnectionState.Open)
                     fConnection.Close();
@@ -77,8 +85,10 @@ namespace APIWeLearn.Models {
             }
         }
 
-        internal static List<Class> SearchClasses(int pIdCLass) {
-            try {
+        internal static List<Class> SearchClasses(int pIdCLass)
+        {
+            try
+            {
                 fConnection.Open();
                 MySqlCommand lQry = new MySqlCommand(ClassSQL.selectClasses, fConnection);
                 List<Class> lista = new List<Class>();
@@ -87,7 +97,8 @@ namespace APIWeLearn.Models {
 
                 MySqlDataReader reader = lQry.ExecuteReader();
 
-                while(reader.Read()) {
+                while (reader.Read())
+                {
                     lista.Add(
                         new Class(
                             int.Parse(reader["cd_aula"].ToString()!),
@@ -103,7 +114,8 @@ namespace APIWeLearn.Models {
                 return lista;
 
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
                 if (fConnection.State == System.Data.ConnectionState.Open)
                     fConnection.Close();
@@ -113,8 +125,10 @@ namespace APIWeLearn.Models {
 
         }
 
-        internal static string DesableClass(int pIdClass) {
-            try {
+        internal static string DesableClass(int pIdClass)
+        {
+            try
+            {
                 fConnection.Open();
                 MySqlCommand lQry = new MySqlCommand(ClassSQL.updateClass, fConnection);
                 lQry.Parameters.AddWithValue("@idAula", pIdClass);
@@ -123,9 +137,10 @@ namespace APIWeLearn.Models {
                 fConnection.Close();
                 return $"Aula desativado com sucesso!";
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
 
-                if (fConnection.State == System.Data.ConnectionState.Open) 
+                if (fConnection.State == System.Data.ConnectionState.Open)
                     fConnection.Close();
                 return e.Message;
             }

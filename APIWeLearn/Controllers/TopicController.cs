@@ -35,5 +35,19 @@ namespace APIWeLearn.Controllers
 
             return Ok(topics);
         }
+
+        [HttpPost("cadastrar")]
+        public ActionResult PostTopic([FromBody] Topic topic)
+        {
+            
+            if (Topic.postTopic(topic))
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+
     }
 }

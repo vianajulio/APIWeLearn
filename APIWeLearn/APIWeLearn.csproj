@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="NovaPasta\**" />
+    <Compile Remove="Resquest\**" />
     <Content Remove="NovaPasta\**" />
+    <Content Remove="Resquest\**" />
     <EmbeddedResource Remove="NovaPasta\**" />
+    <EmbeddedResource Remove="Resquest\**" />
     <None Remove="NovaPasta\**" />
+    <None Remove="Resquest\**" />
   </ItemGroup>
 
   <ItemGroup>

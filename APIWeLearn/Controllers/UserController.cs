@@ -1,8 +1,5 @@
-﻿using APIWeLearn.Controllers;
-using APIWeLearn.Models;
-using APIWeLearn.Resquest;
+﻿using APIWeLearn.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace APIWeLearn.Controllers 
 {
@@ -11,7 +8,7 @@ namespace APIWeLearn.Controllers
     public class UserController : Controller 
     {
         [HttpPost("cadastrar")]
-        public IActionResult PostUser([FromBody] RegisterRequest register)
+        public IActionResult PostUser([FromBody] User register)
         {
             User user = new User(name: register.Name, email: register.Email, senha: register.Password, pierSitReg: "ATV", dateTime: DateTime.Now);
             if (user.InsertUser())
@@ -33,7 +30,7 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult LoginUser([FromBody] LoginResquest login) {
+        public IActionResult LoginUser([FromBody] User login) {
             User user = new User(email: login.Email, senha: login.Password, dateTime: DateTime.Now);
             user.LoginUser();
             if (user == null || user.Id == 0)
@@ -44,7 +41,7 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpPut("editar")]
-        public IActionResult PutUser([FromBody] EditResquest edit) {
+        public IActionResult PutUser([FromBody] User edit) {
             
             User user = new User(id: edit.Id, name: edit.Name, email: edit.Email, senha: edit.Password, pierSitReg: edit.PierSitReg, dateTime: DateTime.Now);
             if (user.EditUser())

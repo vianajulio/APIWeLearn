@@ -18,7 +18,8 @@ namespace APIWeLearn.Models
         string? pier_sit_reg;
 
         //Construtor para realizar post, put e remove
-        public Topic(int? id, string? titulo_topico, string? assunto, DateTime? data, string? id_categoria, string? nome_usuario, int? id_aula_topico, string? pier_sit_reg) {
+        public Topic(int? id, string? titulo_topico, string? assunto, DateTime? data, string? id_categoria, string? nome_usuario, int? id_aula_topico, string? pier_sit_reg)
+        {
             this.id_topico = id;
             this.titulo_topico = titulo_topico;
             this.assunto_topico = assunto;
@@ -59,11 +60,9 @@ namespace APIWeLearn.Models
 
                 return topics;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
                 throw;
-                return null;
             }
             finally
             {
@@ -99,9 +98,36 @@ namespace APIWeLearn.Models
 
                 return topics;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
+            }
+            finally
+            {
+                fConection.Close();
+            }
+        }
+        internal static bool postTopic(Topic topic)
+        {
+            try
+            {
+                fConection.Open();
+
+                MySqlCommand lQry = new MySqlCommand(TopicSQL.postTopico, fConection);
+                lQry.Parameters.AddWithValue("@titulo_topico", topic.titulo_topico);
+                lQry.Parameters.AddWithValue("@assunto_topico", topic.assunto_topico);
+                lQry.Parameters.AddWithValue("@data_topico", topic.data_topico);
+                lQry.Parameters.AddWithValue("@id_categoria_topico", topic.nome_categoria);
+                lQry.Parameters.AddWithValue("@id_usuario_topico", topic.nome_usuario);
+                lQry.Parameters.AddWithValue("@id_aula_topico", topic.id_aula_topico);
+                lQry.Parameters.AddWithValue("@pier_sit_reg", topic.pier_sit_reg);
+
+                lQry.ExecuteReader();
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
             }
             finally
             {
@@ -110,13 +136,13 @@ namespace APIWeLearn.Models
         }
 
         public int? Id { get => id_topico; set => id_topico = value; }
-        public string? Titulo_Topico { get => titulo_topico; set => titulo_topico = value; }
+        public string? Titulo_topico { get => titulo_topico; set => titulo_topico = value; }
         public string? Assunto { get => assunto_topico; set => assunto_topico = value; }
         public string? Categoria { get => nome_categoria; set => nome_categoria = value; }
-        public string? Nome_Usuario { get => nome_usuario; set => nome_usuario = value; }
+        public string? Nome_usuario { get => nome_usuario; set => nome_usuario = value; }
         public DateTime? Data { get => data_topico; set => data_topico = value; }
-        public int? Id_Aula { get => id_aula_topico; set => id_aula_topico = value; }
-        public string? PierSitReg { get => pier_sit_reg; set => pier_sit_reg = value; }
+        public int? Id_aula { get => id_aula_topico; set => id_aula_topico = value; }
+        public string? Pier_sit_reg { get => pier_sit_reg; set => pier_sit_reg = value; }
 
     }
 }

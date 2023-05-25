@@ -11,12 +11,14 @@ namespace APIWeLearn.Models
         int? id;
         string? nome_usuario;
         string? conteudo_resposta;
+        int? id_topico;
         DateTime? data_resposta;
         string? pier_sit_reg;
 
-        public Answers(int? id, DateTime? data_resposta, string? pier_sit_reg, string? nome_usuario, string? conteudo_resposta)
+        public Answers(int? id, int? id_topico, DateTime? data_resposta, string? pier_sit_reg, string? nome_usuario, string? conteudo_resposta)
         {
             this.id = id;
+            this.id_topico = id_topico;
             this.nome_usuario = nome_usuario;
             this.conteudo_resposta = conteudo_resposta;
             this.data_resposta = data_resposta;
@@ -53,6 +55,30 @@ namespace APIWeLearn.Models
             }
             catch (Exception e) { throw; }
             finally { fConection.Close(); }
+        }
+
+        internal static bool postAnswer(Answers answers)
+        {
+            try
+            {
+                fConection.Open();
+
+                MySqlCommand lQry = new MySqlCommand(AnswersSQL.postAnswers, fConection);
+
+                lQry.Parameters.AddWithValue("@id_topico_resposta", answers.id_topico);
+                lQry.Parameters.AddWithValue("@id_usuario_resposta", answers.nome_usuario);
+                lQry.Parameters.AddWithValue("@conteudo_resposta", answers.conteudo_resposta);
+                lQry.Parameters.AddWithValue("@data_resposta", answers.data_resposta);
+                lQry.Parameters.AddWithValue("@pier_sit_reg", answers.pier_sit_reg);
+
+                lQry.ExecuteReader();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public int? Id { get => id; set => id = value; }
