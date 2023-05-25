@@ -101,7 +101,8 @@
             ", u.nome_usuario " +
             " FROM topicos " +
             " INNER JOIN categorias AS c ON topicos.id_categoria_topico = c.id_categoria " +
-            " INNER JOIN usuarios AS u ON topicos.id_usuario_topico = u.id_usuario;";
+            " INNER JOIN usuarios AS u ON topicos.id_usuario_topico = u.id_usuario " +
+            " WHERER topicos.pier_sit_reg = 'ATV'";
 
         public const string getSelectedTopics =
            "SELECT topicos.id_topico " +
