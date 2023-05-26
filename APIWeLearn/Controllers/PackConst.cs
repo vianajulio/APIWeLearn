@@ -86,10 +86,7 @@
             ", @id_categoria_topico, @id_usuario_topico, @id_aula_topico" +
             ", @pier_sit_reg)";
 
-        public const string searchTopic =
-          "SELECT * FROM categorias " +
-          "WHERE id_topico = @idTopico " +
-          "AND pier_sit_reg = 'ATV'";
+      
 
         public const string getTopics =
           "SELECT topicos.id_topico " +
@@ -115,7 +112,8 @@
             " FROM topicos " +
             " INNER JOIN categorias AS c ON topicos.id_categoria_topico = c.id_categoria " +
             " INNER JOIN usuarios AS u ON topicos.id_usuario_topico = u.id_usuario " +
-            " WHERE c.nome_categoria = @nomeCategoria;";
+            " WHERE c.nome_categoria = @nomeCategoria" +
+            " AND topicos.pier_sit_reg = 'ATV'";
 
     }
 
