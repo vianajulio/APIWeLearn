@@ -116,7 +116,7 @@ namespace APIWeLearn.Models
                 MySqlCommand lQry = new MySqlCommand(TopicSQL.postTopico, fConection);
                 lQry.Parameters.AddWithValue("@titulo_topico", topic.titulo_topico);
                 lQry.Parameters.AddWithValue("@assunto_topico", topic.assunto_topico);
-                lQry.Parameters.AddWithValue("@data_topico", topic.data_topico);
+                lQry.Parameters.AddWithValue("@data_topico", DateTime.Now);
                 lQry.Parameters.AddWithValue("@id_categoria_topico", topic.nome_categoria);
                 lQry.Parameters.AddWithValue("@id_usuario_topico", topic.nome_usuario);
                 lQry.Parameters.AddWithValue("@id_aula_topico", topic.id_aula_topico);
