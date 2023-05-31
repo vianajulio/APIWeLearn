@@ -68,7 +68,7 @@ namespace APIWeLearn.Models
                 lQry.Parameters.AddWithValue("@id_topico_resposta", answers.id_topico);
                 lQry.Parameters.AddWithValue("@id_usuario_resposta", answers.nome_usuario);
                 lQry.Parameters.AddWithValue("@conteudo_resposta", answers.conteudo_resposta);
-                lQry.Parameters.AddWithValue("@data_resposta", answers.data_resposta);
+                lQry.Parameters.AddWithValue("@data_resposta", DateTime.Now);
                 lQry.Parameters.AddWithValue("@pier_sit_reg", answers.pier_sit_reg);
 
                 lQry.ExecuteReader();
