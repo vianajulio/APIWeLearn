@@ -79,11 +79,16 @@ namespace APIWeLearn.Models
             {
                 throw;
             }
+            finally
+            {
+                fConection.Close() ;
+            }
         }
 
         public int? Id { get => id; set => id = value; }
+        public int? Id_topico { get => id_topico; set => id_topico = value; }
         public DateTime? Data_resposta { get => data_resposta; set => data_resposta = value; }
-        public string? Pier_sit_Reg { get => pier_sit_reg; set => pier_sit_reg = value; }
+        public string? Pier_sit_reg { get => pier_sit_reg; set => pier_sit_reg = value; }
         public string? Nome_usuario { get => nome_usuario; set => nome_usuario = value; }
         public string? Conteudo_resposta { get => conteudo_resposta; set => conteudo_resposta = value; }
     }
