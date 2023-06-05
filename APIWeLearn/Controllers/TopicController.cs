@@ -48,6 +48,19 @@ namespace APIWeLearn.Controllers
             return BadRequest();
         }
 
+        [HttpPut]
+        [Route("putTopicDes/{id_topico}")]
+        public ActionResult putTopicDes(int id_topico)
+        {
+
+            if (Topic.putTopicDes(id_topico))
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
 
     }
 }

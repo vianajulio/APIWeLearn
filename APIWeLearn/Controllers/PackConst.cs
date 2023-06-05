@@ -115,6 +115,9 @@
             " WHERE c.nome_categoria = @nomeCategoria" +
             " AND topicos.pier_sit_reg = 'ATV'";
 
+        public const string putTopicsDES =
+            "UPDATE topicos SET topicos.pier_sit_reg = 'DES' WHERE topicos.id_topico = @id_topico";
+
     }
 
     public static class ClassSQL

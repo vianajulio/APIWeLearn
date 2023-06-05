@@ -18,6 +18,7 @@ namespace APIWeLearn.Models
         string? pier_sit_reg;
 
         //Construtor para realizar post, put e remove
+        public Topic() { }
         public Topic(int? id, string? titulo_topico, string? assunto, DateTime? data, string? id_categoria, string? nome_usuario, int? id_aula_topico, string? pier_sit_reg)
         {
             this.id_topico = id;
@@ -30,7 +31,6 @@ namespace APIWeLearn.Models
             this.pier_sit_reg = pier_sit_reg;
         }
 
-        public Topic() { }
 
         internal List<Topic> getTopics()
         {
@@ -121,6 +121,28 @@ namespace APIWeLearn.Models
                 lQry.Parameters.AddWithValue("@id_usuario_topico", topic.nome_usuario);
                 lQry.Parameters.AddWithValue("@id_aula_topico", topic.id_aula_topico);
                 lQry.Parameters.AddWithValue("@pier_sit_reg", topic.pier_sit_reg);
+
+                lQry.ExecuteReader();
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                fConection.Close();
+            }
+        }
+
+        internal static bool putTopicDes(int id_topico)
+        {
+            try
+            {
+                fConection.Open();
+
+                MySqlCommand lQry = new MySqlCommand(TopicSQL.putTopicsDES, fConection);
+                lQry.Parameters.AddWithValue("@id_topico", id_topico);
 
                 lQry.ExecuteReader();
                 return true;
