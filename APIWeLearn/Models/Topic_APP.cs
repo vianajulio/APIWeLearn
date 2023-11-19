@@ -59,9 +59,7 @@ namespace APIWeLearn.Models
             }
             catch (Exception)
             {
-
                 throw;
-                return null;
             }
             finally
             {

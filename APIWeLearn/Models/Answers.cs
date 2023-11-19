@@ -53,7 +53,9 @@ namespace APIWeLearn.Models
 
                 return ans;
             }
-            catch (Exception e) { throw; }
+            catch (Exception e) { 
+                throw; 
+            }
             finally { fConection.Close(); }
         }
 

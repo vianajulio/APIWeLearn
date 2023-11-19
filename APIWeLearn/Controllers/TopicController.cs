@@ -60,6 +60,18 @@ namespace APIWeLearn.Controllers
 
             return BadRequest();
         }
+        [HttpPut]
+        [Route("delTopic/{id_topico}")]
+        public ActionResult delTopicDes(int id_topico)
+        {
+
+            if (Topic.delTopic(id_topico))
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using APIWeLearn.Models;
+using APIWeLearn.Resquest;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIWeLearn.Controllers 
@@ -7,10 +8,10 @@ namespace APIWeLearn.Controllers
     [Route("api/usuario")]
     public class UserController : Controller 
     {
-        [HttpPost("cadastrar")]
-        public IActionResult PostUser([FromBody] User register)
+        [HttpPost("register")]
+        public IActionResult PostUser([FromBody] RegisterRequest register)
         {
-            User user = new User(name: register.Name, email: register.Email, senha: register.Password, pierSitReg: "ATV", dateTime: DateTime.Now);
+            User user = new User(name: register.Name, email: register.Email, senha: register.Password, userType: register.UserType);
             if (user.InsertUser())
             {
                 return Ok();
@@ -18,10 +19,9 @@ namespace APIWeLearn.Controllers
             return BadRequest();
         }
        
-        [HttpGet("buscar")]
+        [HttpGet("search")]
         public IActionResult GetUser(string email) {
-            User user = new User(email: email, dateTime: DateTime.Now);
-            user.SearchUser();
+            User user = new User(email: email).SearchUser();
             if (user == null)
             {
                 return NotFound();
@@ -30,8 +30,8 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult LoginUser([FromBody] User login) {
-            User user = new User(email: login.Email, senha: login.Password, dateTime: DateTime.Now);
+        public IActionResult LoginUser([FromBody] LoginResquest login) {
+            User user = new User(email: login.Email, senha: login.Password, userType: login.UserType);
             user.LoginUser();
             if (user == null || user.Id == 0)
             {
@@ -41,9 +41,9 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpPut("editar")]
-        public IActionResult PutUser([FromBody] User edit) {
+        public IActionResult PutUser([FromBody] EditResquest edit) {
             
-            User user = new User(id: edit.Id, name: edit.Name, email: edit.Email, senha: edit.Password, pierSitReg: edit.PierSitReg, dateTime: DateTime.Now);
+            User user = new User(name: edit.Name, email: edit.Email, senha: edit.Password, userType: edit.UserType);
             if (user.EditUser())
             {
                 return Ok();

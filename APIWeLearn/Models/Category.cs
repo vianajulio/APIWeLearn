@@ -43,9 +43,6 @@ namespace APIWeLearn.Models
             }
             catch (Exception e)
             {
-
-                if (fConection.State == System.Data.ConnectionState.Open)
-                    fConection.Close();
                 return false;
             }
             finally { fConection.Close(); }
@@ -54,10 +51,10 @@ namespace APIWeLearn.Models
         internal static List<Category> getAllCategory()
         {
             try
-            {
+            { 
+                fConection.Open(); 
                 List<Category> categories = new List<Category>();
 
-                fConection.Open();
 
                 MySqlCommand lQry = new MySqlCommand(CategorySQL.getAllCategory, fConection);
                 MySqlDataReader reader = lQry.ExecuteReader();
@@ -78,8 +75,6 @@ namespace APIWeLearn.Models
             }
             catch (Exception e)
             {
-                if (fConection.State == System.Data.ConnectionState.Open)
-                    fConection.Close();
                 throw;
             }
             finally
