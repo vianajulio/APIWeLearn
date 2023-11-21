@@ -9,7 +9,7 @@ namespace APIWeLearn.Controllers
     public class UserController : Controller 
     {
         [HttpPost("register")]
-        public IActionResult PostUser([FromBody] RegisterRequest register)
+        public IActionResult PostUser([FromBody] UserRegisterRequest register)
         {
             User user = new User(name: register.Name, email: register.Email, senha: register.Password, userType: register.UserType);
             if (user.InsertUser())
@@ -30,7 +30,7 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult LoginUser([FromBody] LoginResquest login) {
+        public IActionResult LoginUser([FromBody] UserLoginResquest login) {
             User user = new User(email: login.Email, senha: login.Password, userType: login.UserType);
             user.LoginUser();
             if (user == null || user.Id == 0)
@@ -41,7 +41,7 @@ namespace APIWeLearn.Controllers
         }
 
         [HttpPut("editar")]
-        public IActionResult PutUser([FromBody] EditResquest edit) {
+        public IActionResult PutUser([FromBody] UserEditResquest edit) {
             
             User user = new User(name: edit.Name, email: edit.Email, senha: edit.Password, userType: edit.UserType);
             if (user.EditUser())

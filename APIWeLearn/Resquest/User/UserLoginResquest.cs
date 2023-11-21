@@ -1,6 +1,6 @@
 ﻿namespace APIWeLearn.Models
 {
-    public class LoginResquest
+    public class UserLoginResquest
     {
         public string Email { get; set; }
         public string Password { get; set; }

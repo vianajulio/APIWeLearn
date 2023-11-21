@@ -41,84 +41,77 @@
 
         /* Métodos SQL Category */
         public const string insertCategory =
-            "INSERT INTO categorias(nome_categoria, descricao_categoria, userStatus) " +
+            "INSERT INTO categories(categoryNmae, categoryDescription, categoryStatus) " +
             "VALUES(@name, @description, 'ACT')";
 
         public const string getAllCategory =
-            "SELECT * FROM categorias " +
-            "WHERE userStatus = 'ACT'";
+            "SELECT * FROM categories " +
+            "WHERE categoryStatus = 'ACT'";
     }
 
     public static class AnswersSQL
     {
         public const string connectiondb = ConnectionMySql.connection;
 
-        public const string getAllAnswers = 
-            "SELECT respostas.id_resposta" +
-            ", conteudo_resposta" +
-            ", data_resposta" +
+        public const string getAllAnswers =
+            "SELECT answerID" +
+            ", answerContent" +
+            ", answerDate" +
             ", respostas.userStatus" +
-            ", u.nome_usuario" +
+            ", u.userName" +
             " FROM respostas " +
-            " INNER JOIN users AS u ON respostas.id_usuario_resposta = u.id_usuario" +
-            " INNER JOIN topicos AS t ON respostas.id_topico_resposta = t.id_topico " +
-            " WHERE t.id_topico = @id_topico";
+            " INNER JOIN users AS u ON answers.answerUserID = u.userID" +
+            " INNER JOIN topics AS t ON answer.topicID = t.topicID " +
+            " WHERE t.topicID = @topicID";
 
         public const string postAnswers =
-            "INSERT INTO respostas ( id_topico_resposta, conteudo_resposta, id_usuario_resposta" +
+            "INSERT INTO respostas ( topicID_resposta, conteudo_resposta, id_usuario_resposta" +
             ", data_resposta, userStatus)" +
-            " VALUES (@id_topico_resposta, @conteudo_resposta, @id_usuario_resposta" +
+            " VALUES (@topicID_resposta, @conteudo_resposta, @id_usuario_resposta" +
             ", @data_resposta, @userStatus)";
 
 
     }
 
     public static class TopicSQL
-
     {
         public const string connectiondb = ConnectionMySql.connection;
 
         public const string postTopico =
-            "INSERT INTO topicos(titulo_topico, assunto_topico, data_topico" +
-            ", id_categoria_topico, id_usuario_topico, id_aula_topico" +
-            ", userStatus) " +
-            " VALUES(@titulo_topico,@assunto_topico, @data_topico" +
-            ", @id_categoria_topico, @id_usuario_topico, @id_aula_topico" +
-            ", @userStatus)";
-
+            "INSERT INTO topics(topicTitle, topicDescription, topicDate, topicCategoryID, topicUserID, topicVideoID, topicStatus) " +
+            "VALUES (@topicTitle, @topicDescription, @topicDate, @topicCategoryID, @topicUserID, @topicVideoID, 'ACT')";
       
-
         public const string getTopics =
-          "SELECT topicos.id_topico " +
-            ", topicos.titulo_topico " +
-            ", topicos.assunto_topico " +
-            ", topicos.userStatus " +
-            ", topicos.data_topico " +
-            ", c.nome_categoria " +
-            ", u.nome_usuario " +
-            " FROM topicos " +
-            " INNER JOIN categorias AS c ON topicos.id_categoria_topico = c.id_categoria " +
-            " INNER JOIN users AS u ON topicos.id_usuario_topico = u.id_usuario " +
-            " WHERE topicos.userStatus = 'ACT'";
+          "SELECT topics.topicID " +
+            ", topics.topicTitle " +
+            ", topics.topicContent " +
+            ", topics.topicStatus " +
+            ", topics.data_topico " +
+            ", c.categoryName " +
+            ", u.userName " +
+            " FROM topics " +
+            " INNER JOIN categories AS c ON topics.topicCategoryID = c.categoryID" +
+            " INNER JOIN users AS u ON topics.topicUserID = u.userID " +
+            " WHERE topics.topicStatus = 'ACT'";
 
         public const string getSelectedTopics =
-           "SELECT topicos.id_topico " +
-            ", topicos.titulo_topico " +
-            ", topicos.assunto_topico " +
-            ", topicos.userStatus " +
-            ", topicos.data_topico " +
-            ", c.nome_categoria " +
-            ", u.nome_usuario " +
-            " FROM topicos " +
-            " INNER JOIN categorias AS c ON topicos.id_categoria_topico = c.id_categoria " +
-            " INNER JOIN users AS u ON topicos.id_usuario_topico = u.id_usuario " +
-            " WHERE c.nome_categoria = @nomeCategoria" +
-            " AND topicos.userStatus = 'ACT'";
+           "SELECT topics.topicID " +
+            ", topics.topicTitle " +
+            ", topics.topicContent " +
+            ", topics.userStatus " +
+            ", topics.data_topico " +
+            ", c.categoryName " +
+            ", u.userName " +
+            " FROM topics " +
+            " INNER JOIN categorias AS c ON topics.id_categoria_topico = c.id_categoria " +
+            " INNER JOIN users AS u ON topics.id_usuario_topico = u.id_usuario " +
+            " WHERE c.categoryName = @nomeCategoria" +
+            " AND topics.userStatus = 'ACT'";
 
         public const string putTopicsDES =
-            "UPDATE topicos SET topicos.userStatus = 'DES' WHERE topicos.id_topico = @id_topico";
+            "UPDATE topics SET topics.userStatus = 'DES' WHERE topics.topicID = @topicID";
 
-        public const string delTopico = "DELETE FROM topicos WHERE topicos.id_topico = @id_topico";
+        public const string delTopico = "DELETE FROM topics WHERE topics.topicID = @topicID";
     }
 
     public static class ClassSQL
@@ -167,7 +160,7 @@
             ", aulas.data_aula " +
             ", catogorias.nome_catogoria " +
             ", catogorias.descricao_categoria " +
-            ", users.nome_usuario " +
+            ", users.userName " +
             ", users.email " +
             "FROM aulas " +
             "INNER JOIN users ON aulas.id_usuario_aula = users.id_usuario AND users.userStatus = 'ACT' " +

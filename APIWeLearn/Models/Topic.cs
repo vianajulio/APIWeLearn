@@ -1,4 +1,6 @@
 ﻿using APIWeLearn.Controllers;
+using APIWeLearn.Resquest;
+using APIWeLearn.Resquest.Topic;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
 
@@ -8,29 +10,28 @@ namespace APIWeLearn.Models
     {
         static MySqlConnection fConection = new MySqlConnection(UserSQL.connectiondb);
 
-        int? id_topico;
-        string? titulo_topico;
-        string? assunto_topico;
-        string? nome_usuario;
-        string? nome_categoria;
-        DateTime? data_topico;
-        int? id_aula_topico;
-        string? pier_sit_reg;
+        int? topicID;
+        string? topicTitle;
+        string? topicDescription;
+        string? topicUserName;
+        string? topicCategoryID;
+        DateTime? topicDate;
+        int? topicVideoID;
+        string? topicStatus;
 
         public Topic() {}
-
-        public Topic(int? id, string? titulo_topico, string? assunto, DateTime? data, string? id_categoria, string? nome_usuario, int? id_aula_topico, string? pier_sit_reg)
+    
+        public Topic(int? id, string? topicTitle, string? topicDescription, DateTime? date, string? topicCategoryID, string? topicUserName, int? topicVideoID, string? topicStatus)
         {
-            this.id_topico = id;
-            this.titulo_topico = titulo_topico;
-            this.assunto_topico = assunto;
-            this.nome_usuario = nome_usuario;
-            this.nome_categoria = id_categoria;
-            this.data_topico = data;
-            this.id_aula_topico = id_aula_topico;
-            this.pier_sit_reg = pier_sit_reg;
+            this.topicID = id;
+            this.topicTitle = topicTitle;
+            this.topicDescription = topicDescription;
+            this.topicUserName = topicUserName;
+            this.topicCategoryID = topicCategoryID;
+            this.topicDate = date;
+            this.topicVideoID = topicVideoID;
+            this.topicStatus = topicStatus;
         }
-
 
         internal List<Topic> getTopics()
         {
@@ -46,14 +47,13 @@ namespace APIWeLearn.Models
                 {
                     Topic topic = new Topic();
 
-                    topic.id_topico = reader.GetInt32("id_topico");
-                    topic.titulo_topico = reader.GetString("titulo_topico");
-                    topic.assunto_topico = reader.GetString("assunto_topico");
-                    topic.nome_usuario = reader.GetString("nome_usuario");
-                    topic.nome_categoria = reader.GetString("nome_categoria");
-                    topic.data_topico = reader.GetDateTime("data_topico");
-                    topic.pier_sit_reg = reader.GetString("pier_sit_reg");
-
+                    topic.topicID = reader.GetInt32("topicID");
+                    topic.topicTitle = reader.GetString("topicTitle");
+                    topic.topicDescription = reader.GetString("topicContent");
+                    topic.topicUserName = reader.GetString("topicUserName");
+                    topic.topicCategoryID = reader.GetString("topicCategoryID");
+                    topic.topicDate = reader.GetDateTime("data_topico");
+                    topic.topicStatus = reader.GetString("topicStatus");
 
                     topics.Add(topic);
                 }
@@ -69,7 +69,7 @@ namespace APIWeLearn.Models
                 fConection.Close();
             }
         }
-        internal static List<Topic> getSelectedTopics(string nome_categoria)
+        internal static List<Topic> getSelectedTopics(string topicCategoryID)
         {
             try
             {
@@ -77,20 +77,20 @@ namespace APIWeLearn.Models
                 fConection.Open();
 
                 MySqlCommand lQry = new MySqlCommand(TopicSQL.getSelectedTopics, fConection);
-                lQry.Parameters.AddWithValue("@nomeCategoria", nome_categoria);
+                lQry.Parameters.AddWithValue("@nomeCategoria", topicCategoryID);
                 MySqlDataReader reader = lQry.ExecuteReader();
 
                 while (reader.Read())
                 {
                     Topic topic = new Topic();
 
-                    topic.id_topico = reader.GetInt32("id_topico");
-                    topic.titulo_topico = reader.GetString("titulo_topico");
-                    topic.assunto_topico = reader.GetString("assunto_topico");
-                    topic.nome_usuario = reader.GetString("nome_usuario");
-                    topic.nome_categoria = reader.GetString("nome_categoria");
-                    topic.data_topico = reader.GetDateTime("data_topico");
-                    topic.pier_sit_reg = reader.GetString("pier_sit_reg");
+                    topic.topicID = reader.GetInt32("topicID");
+                    topic.topicTitle = reader.GetString("topicTitle");
+                    topic.topicDescription = reader.GetString("topicContent");
+                    topic.topicUserName = reader.GetString("topicUserName");
+                    topic.topicCategoryID = reader.GetString("topicCategoryID");
+                    topic.topicDate = reader.GetDateTime("data_topico");
+                    topic.topicStatus = reader.GetString("topicStatus");
 
 
                     topics.Add(topic);
@@ -107,20 +107,44 @@ namespace APIWeLearn.Models
                 fConection.Close();
             }
         }
-        internal static bool postTopic(Topic topic)
+        internal static bool postTopicVideo(TopicVideoPostRequest topic)
         {
             try
             {
                 fConection.Open();
-
                 MySqlCommand lQry = new MySqlCommand(TopicSQL.postTopico, fConection);
-                lQry.Parameters.AddWithValue("@titulo_topico", topic.titulo_topico);
-                lQry.Parameters.AddWithValue("@assunto_topico", topic.assunto_topico);
-                lQry.Parameters.AddWithValue("@data_topico", DateTime.Now);
-                lQry.Parameters.AddWithValue("@id_categoria_topico", topic.nome_categoria);
-                lQry.Parameters.AddWithValue("@id_usuario_topico", topic.nome_usuario);
-                lQry.Parameters.AddWithValue("@id_aula_topico", topic.id_aula_topico);
-                lQry.Parameters.AddWithValue("@pier_sit_reg", topic.pier_sit_reg);
+
+                lQry.Parameters.AddWithValue("@topicTitle", topic.TopicTitle);
+                lQry.Parameters.AddWithValue("@topicDescription", topic.TopicDescription);
+                lQry.Parameters.AddWithValue("@topicDate", DateTime.Now);
+                lQry.Parameters.AddWithValue("@topicCategoryID", topic.TopicCategoryID);
+                lQry.Parameters.AddWithValue("@topicUserID", topic.TopicUserID);
+                lQry.Parameters.AddWithValue("@topicVideoID", topic.TopicVideoID);
+
+                lQry.ExecuteReader();
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                fConection.Close();
+            }
+        }
+        internal static bool postTopicForum(TopicForumPostRequest topic)
+        {
+            try
+            {
+                fConection.Open();
+                MySqlCommand lQry = new MySqlCommand(TopicSQL.postTopico, fConection);
+
+                lQry.Parameters.AddWithValue("@topicTitle", topic.TopicTitle);
+                lQry.Parameters.AddWithValue("@topicDescription", topic.TopicDescription);
+                lQry.Parameters.AddWithValue("@topicDate", DateTime.Now);
+                lQry.Parameters.AddWithValue("@topicCategoryID", topic.TopicCategoryID);
+                lQry.Parameters.AddWithValue("@topicUserID", topic.TopicUserID);
 
                 lQry.ExecuteReader();
                 return true;
@@ -135,14 +159,14 @@ namespace APIWeLearn.Models
             }
         }
 
-        internal static bool putTopicDes(int id_topico)
+        internal static bool putTopicDes(int topicID)
         {
             try
             {
                 fConection.Open();
 
                 MySqlCommand lQry = new MySqlCommand(TopicSQL.putTopicsDES, fConection);
-                lQry.Parameters.AddWithValue("@id_topico", id_topico);
+                lQry.Parameters.AddWithValue("@topicID", topicID);
 
                 lQry.ExecuteReader();
                 return true;
@@ -156,14 +180,14 @@ namespace APIWeLearn.Models
                 fConection.Close();
             }
         }    
-        internal static bool delTopic(int id_topico)
+        internal static bool delTopic(int topicID)
         {
             try
             {
                 fConection.Open();
 
                 MySqlCommand lQry = new MySqlCommand(TopicSQL.delTopico, fConection);
-                lQry.Parameters.AddWithValue("@id_topico", id_topico);
+                lQry.Parameters.AddWithValue("@topicID", topicID);
 
                 lQry.ExecuteReader();
                 return true;
@@ -178,14 +202,14 @@ namespace APIWeLearn.Models
             }
         }
 
-        public int? Id { get => id_topico; set => id_topico = value; }
-        public string? Titulo_topico { get => titulo_topico; set => titulo_topico = value; }
-        public string? Assunto { get => assunto_topico; set => assunto_topico = value; }
-        public string? Categoria { get => nome_categoria; set => nome_categoria = value; }
-        public string? Nome_usuario { get => nome_usuario; set => nome_usuario = value; }
-        public DateTime? Data { get => data_topico; set => data_topico = value; }
-        public int? Id_aula { get => id_aula_topico; set => id_aula_topico = value; }
-        public string? Pier_sit_reg { get => pier_sit_reg; set => pier_sit_reg = value; }
+        public int? Id { get => topicID; set => topicID = value; }
+        public string? Titulo_topico { get => topicTitle; set => topicTitle = value; }
+        public string? Assunto { get => topicDescription; set => topicDescription = value; }
+        public string? Categoria { get => topicCategoryID; set => topicCategoryID = value; }
+        public string? Nome_usuario { get => topicUserName; set => topicUserName = value; }
+        public DateTime? Data { get => topicDate; set => topicDate = value; }
+        public int? Id_aula { get => topicVideoID; set => topicVideoID = value; }
+        public string? Pier_sit_reg { get => topicStatus; set => topicStatus = value; }
 
     }
 }

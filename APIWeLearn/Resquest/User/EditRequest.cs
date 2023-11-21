@@ -1,6 +1,8 @@
-﻿namespace APIWeLearn.Controllers
+﻿using System.Text.Json.Serialization.Metadata;
+
+namespace APIWeLearn.Controllers
 {
-    public class EditResquest
+    public class UserEditResquest
     {
         public int Id { get; set; }
         public string Name { get; set; }

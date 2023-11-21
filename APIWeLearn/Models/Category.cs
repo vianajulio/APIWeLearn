@@ -64,7 +64,7 @@ namespace APIWeLearn.Models
                     Category category = new Category();
 
                     category.id = reader.GetInt32("id_categoria");
-                    category.name = reader.GetString("nome_categoria");
+                    category.name = reader.GetString("categoryName");
                     category.description = reader.GetString("descricao_categoria");
                     category.pierSitReg = reader.GetString("pier_sit_reg");
 

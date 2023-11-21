@@ -1,5 +1,7 @@
 ﻿using APIWeLearn.Controllers;
 using APIWeLearn.Models;
+using APIWeLearn.Resquest;
+using APIWeLearn.Resquest.Topic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APIWeLearn.Controllers
@@ -17,17 +19,15 @@ namespace APIWeLearn.Controllers
             {
                 return NotFound();
             }
-
             return Ok(listTopics);
-
         }
         
         [HttpGet]
-        [Route("buscar/{nome_categoria}")]
-        public ActionResult GetSelectedCategory(string nome_categoria)
+        [Route("buscar/{categoryName}")]
+        public ActionResult GetSelectedCategory(string categoryName)
         {
             List<Topic> topics = new List<Topic>();
-            topics = Topic.getSelectedTopics(nome_categoria);
+            topics = Topic.getSelectedTopics(categoryName);
             if (topics == null)
             {
                 return NotFound();
@@ -36,11 +36,11 @@ namespace APIWeLearn.Controllers
             return Ok(topics);
         }
 
-        [HttpPost("cadastrar")]
-        public ActionResult PostTopic([FromBody] Topic topic)
+        [HttpPost("topicInVideo")]
+        public ActionResult PostTopicVideo([FromBody] TopicVideoPostRequest topic)
         {
             
-            if (Topic.postTopic(topic))
+            if (Topic.postTopicVideo(topic))
             {
                 return Ok();
             }
@@ -48,12 +48,27 @@ namespace APIWeLearn.Controllers
             return BadRequest();
         }
 
+        [HttpPost("topicInForum")]
+        public ActionResult PostTopicForum([FromBody] TopicForumPostRequest topic)
+        {
+            
+            if (Topic.postTopicForum(topic))
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+
+
+
         [HttpPut]
-        [Route("putTopicDes/{id_topico}")]
-        public ActionResult putTopicDes(int id_topico)
+        [Route("putTopicDes/{topicID}")]
+        public ActionResult putTopicDes(int topicID)
         {
 
-            if (Topic.putTopicDes(id_topico))
+            if (Topic.putTopicDes(topicID))
             {
                 return Ok();
             }
@@ -61,11 +76,11 @@ namespace APIWeLearn.Controllers
             return BadRequest();
         }
         [HttpPut]
-        [Route("delTopic/{id_topico}")]
-        public ActionResult delTopicDes(int id_topico)
+        [Route("delTopic/{topicID}")]
+        public ActionResult delTopicDes(int topicID)
         {
 
-            if (Topic.delTopic(id_topico))
+            if (Topic.delTopic(topicID))
             {
                 return Ok();
             }

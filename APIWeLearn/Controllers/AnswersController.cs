@@ -9,11 +9,11 @@ namespace APIWeLearn.Controllers
     public class AnswersController : Controller
     {
         [HttpGet]
-        [Route("listar/{id_topico}")]
-        public IActionResult GetAnswers(int id_topico)
+        [Route("listar/{topicID}")]
+        public IActionResult GetAnswers(int topicID)
         {
             List<Answers> answers = new List<Answers>();
-            answers = Answers.getAnswers(id_topico);
+            answers = Answers.getAnswers(topicID);
             if (answers == null)
             {
                 return NotFound();
